@@ -5,14 +5,8 @@
 #include <string>
 #include <functional>
 
-// fix OSX compilation
-static int string_length(const std::string & str)
-{
-    return str.length();
-}
-
 int main() {
-    auto len = string_length;
+    auto len = [](const std::string& str){ return str.size(); };
     std::vector<std::string> vec = {
         "hi", "ab", "ho",
         "abc", "def",
@@ -40,17 +34,15 @@ int main() {
         }
         std::cout << '\n';
     }
-   
+
 
     std::cout << "ints grouped by their value:\n";
     std::vector<int> ivec = {5, 5, 6, 6, 19, 19, 19, 19, 69, 0, 10, 10};
-    for (auto gb : iter::groupby(ivec)) {
+    for (auto&& gb : iter::groupby(ivec)) {
         std::cout << "key(" << gb.first << "): ";
-        for (auto s : gb.second) {
+        for (auto&& s : gb.second) {
             std::cout << s << "  ";
         }
         std::cout << '\n';
     }
 }
-
-    
